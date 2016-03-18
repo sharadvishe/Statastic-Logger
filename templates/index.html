@@ -1,0 +1,92 @@
+<body bgcolor="#E6E6FA">
+	
+
+<span> <h1>System Statastic &emsp; &emsp; <button type="button" href="/">Refresh</button> </h1></span>
+
+
+{% for l in log recursive %}
+
+		<h3>Time : {{l.timestamp}}	</h3> 
+	 
+
+		<table border=1>
+			<tr>
+				<td valign="top">
+
+					<h3>Memory Status:</h3>
+					Virtual Memory:
+					<p>
+
+					{% for key,val in l['memory']['virtual_memory'].items() recursive %}
+
+							{% if key in ["available","used","free","total"] %}
+								{% set val = val/1024/1024 -%}
+							    <li style="margin-left: 2cm;" ><b>{{key}} :</b> {{val|round(2)}} MB &emsp; </li>
+							{% elif key in ["used_percentage","remaining_percentage"] %}
+							    <li style="margin-left: 2cm;" ><b>{{key}} :</b> {{val}}% &emsp; </li>
+							{% else %}
+							    <li style="margin-left: 2cm;" ><b>{{key}}:</b> {{val}} &emsp; </li>
+							{% endif %}
+
+						
+					{% endfor %}
+
+					</p>
+
+					Swap Memory:
+					<p>
+
+					{% for key,val in l['memory']['swap_memory'].items() recursive %}	
+
+							{% if key in ["available","used","free","total"] %}
+								{% set val = val/1024/1024 -%}
+							    <li style="margin-left: 2cm;" ><b>{{key}} :</b> {{val|round(2)}} MB &emsp; </li>
+							{% elif key in ["used_percentage","remaining_percentage"] %}
+							    <li style="margin-left: 2cm;" ><b>{{key}} :</b> {{val}}% &emsp; </li>
+							{% else %}
+							    <li style="margin-left: 2cm;" ><b>{{key}}:</b> {{val}} &emsp; </li>
+							{% endif %}
+
+							
+					{% endfor %}
+
+					</p>					
+
+				</td>
+				
+				<td valign="top">
+					
+					<h3>Network Status:</h3>
+					Network Info:
+					<p >
+
+					{% for key,val in l['network']['network_info'].items() recursive %}						
+					 	<li style="margin-left: 2cm;" ><b>{{key}} :</b> {{val}} &emsp; </li>
+					{% endfor %}
+
+					</p>
+
+				</td>
+
+				<td valign="top">
+					
+					<h3>CPU Status:</h3>
+					Cpu Info:
+					<p >
+
+					{% for key,val in l['cpu']['cpu_info'].items() recursive %}						
+					 	<li style="margin-left: 2cm;" ><b>{{key}} :</b> {{val}} &emsp; </li>
+					{% endfor %}
+
+					</p>
+
+				</td>				
+
+			</tr>
+
+		</table>
+
+{% endfor %}
+
+</body>
+
